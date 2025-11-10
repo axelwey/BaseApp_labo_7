@@ -1,0 +1,42 @@
+Op je WSL:
+- ssh-keygen -t rsa
+- id_rsa.pub openen en registreren in github (profiel -> setting -> ssh kygen)
+
+Docker compose:
+-Te starten containers
+-Container networking
+-Open te stellen poorten
+-Container dependencies
+-Docker volumes
+
+FROM node:17-apline3.14
+WORKDIR /mapwaaralmijnbackendfilesterchtkomen
+COPY package*json .
+RUN npm install
+copy .. 
+#RUN npm install
+#CMD ["sleep","infinity"]
+EXPOSE 3000
+CMD ["node","index.js]
+
+docker build -t labobackend .
+docker run -p 3000:3000 labobackend
+
+services:
+  frondend:
+    build: ./frontend/
+     ports:
+       - "80:80"
+  backend:
+    build: ./backend/
+    environment:
+      STORAGE: mysql
+      MYSQL_HOST=
+      MYSQL_USER=
+      MYSQL_PWD=$mysqlpwd
+      MYSQL_DB=$mysqldb
+
+  db:
+    image: mysql:8.0.21
+
+docker compose build; docker compose up
